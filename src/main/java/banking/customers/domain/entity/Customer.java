@@ -10,6 +10,15 @@ public class Customer {
     private String lastName;
     private Boolean isActive;
     private Set<BankAccount> bankAccounts;
+    private long person_id;
+
+	public long getPerson_id() {
+		return person_id;
+	}
+
+	public void setPerson_id(long person_id) {
+		this.person_id = person_id;
+	}
 
 	public Customer() {
     }

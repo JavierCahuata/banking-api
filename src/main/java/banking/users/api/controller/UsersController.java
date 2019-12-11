@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import banking.common.api.controller.ResponseHandler;
 import banking.users.application.UserApplicationService;
+import banking.users.application.UserClaimApplicationService;
 import banking.users.application.dto.UserDto;
 import banking.users.application.dto.UserAuthDto;
 

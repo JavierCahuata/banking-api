@@ -24,8 +24,9 @@ public class BankTransferController {
 	@RequestMapping(method = RequestMethod.POST, path = "/transfer", consumes = "application/json; charset=UTF-8", produces = "application/json; charset=UTF-8")
 	public ResponseEntity<Object> performTransfer(@RequestBody RequestBankTransferDto requestBankTransferDto) throws Exception {
 		try {
-			transactionApplicationService.performTransfer(requestBankTransferDto);
-			return this.responseHandler.getResponse("Transfer done!", HttpStatus.CREATED);
+			//transactionApplicationService.performTransfer(requestBankTransferDto);
+			//return this.responseHandler.getResponse("Transfer done!", HttpStatus.CREATED);
+			return new ResponseEntity<Object>(transactionApplicationService.performTransfer(requestBankTransferDto), HttpStatus.OK);
 		} catch(IllegalArgumentException ex) {
 			return this.responseHandler.getAppCustomErrorResponse(ex.getMessage());
 		} catch(Exception ex) {

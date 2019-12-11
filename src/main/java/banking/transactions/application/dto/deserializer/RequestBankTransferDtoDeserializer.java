@@ -2,6 +2,7 @@ package banking.transactions.application.dto.deserializer;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,6 +25,8 @@ public class RequestBankTransferDtoDeserializer extends JsonDeserializer<Request
             String fromAccountNumber = node.get("fromAccountNumber").asText();
             String toAccountNumber = node.get("toAccountNumber").asText();
             BigDecimal amount = new BigDecimal(node.get("amount").asText());
+            //@SuppressWarnings("deprecation")
+			//Date date = new Date(node.get("date").asText());
             requestBankTransferDto = new RequestBankTransferDto(fromAccountNumber, toAccountNumber, amount);
     	} catch(Exception ex) {
     		requestBankTransferDto = new RequestBankTransferDto(RequestBodyType.INVALID.toString(), RequestBodyType.INVALID.toString(), null);

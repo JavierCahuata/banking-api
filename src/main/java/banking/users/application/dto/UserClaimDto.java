@@ -5,8 +5,8 @@ public class UserClaimDto {
     private String type;
     private String value;
     private UserDto user;
-	
-    public long getId() {
+
+	public long getId() {
 		return id;
 	}
 	

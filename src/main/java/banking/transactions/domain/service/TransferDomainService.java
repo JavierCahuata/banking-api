@@ -1,22 +1,50 @@
 package banking.transactions.domain.service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import banking.accounts.domain.entity.BankAccount;
+import banking.accounts.domain.repository.BankAccountRepository;
 import banking.common.application.Notification;
+import banking.transactions.application.dto.RequestBankTransferDto;
+import banking.transactions.domain.entity.RequestBankTransfer;
+import banking.transactions.domain.entity.Transaction;
+import banking.transactions.domain.repository.RequestBankTransferRepository;
 
 @Service
 public class TransferDomainService {
-	public void performTransfer(BankAccount originAccount, BankAccount destinationAccount, BigDecimal amount)
-			throws IllegalArgumentException {
-		Notification notification = this.validation(originAccount, destinationAccount, amount);
+	@Autowired
+	private BankAccountRepository bankAccountRepository;
+		
+	@Autowired
+	RequestBankTransferRepository requestBankTransferRepository;
+	
+	//public Transaction performTransfer(BankAccount originAccount, BankAccount destinationAccount, BigDecimal amount)
+	public RequestBankTransfer performTransfer(RequestBankTransfer requestBankTransfer)
+			throws Exception {
+				
+		        BankAccount originAccount = this.bankAccountRepository.findByNumberLocked(requestBankTransfer.getFromAccountNumber());
+				BankAccount destinationAccount = this.bankAccountRepository.findByNumberLocked(requestBankTransfer.getToAccountNumber());
+				
+				//this.transferDomainService.performTransfer(requestBankTransfer);
+				this.bankAccountRepository.save(originAccount);
+				this.bankAccountRepository.save(destinationAccount);
+		
+		Notification notification = this.validation(originAccount, destinationAccount, requestBankTransfer.getAmount());
         if (notification.hasErrors()) {
             throw new IllegalArgumentException(notification.errorMessage());
         }
-		originAccount.withdrawMoney(amount);
-		destinationAccount.depositMoney(amount);
+		originAccount.withdrawMoney(requestBankTransfer.getAmount());
+		destinationAccount.depositMoney(requestBankTransfer.getAmount());
+		this.requestBankTransferRepository.save(requestBankTransfer);
+		/*
+		Transaction RequestBankTransfer = new requestBankTransfer( originAccount,  destinationAccount, amount, new Date());
+		Transaction transaction_2 = requestBankTransferRepository.save(transaction);*/
+		return requestBankTransfer;
+
 	}
 	
 	private Notification validation(BankAccount originAccount, BankAccount destinationAccount, BigDecimal amount) {

@@ -5,4 +5,6 @@ VALUES
 ('canAccessCustomers', 'true', 1),
 ('canAddAccount', 'true', 1),
 ('canSaveAccount', 'true', 1),
-('canAccessAccounts', 'true', 1);
+('canAccessAccounts', 'true', 1),
+('isAdmin', 'true', 1),
+('isAdmin', 'false', 2);

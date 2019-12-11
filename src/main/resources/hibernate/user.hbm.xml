@@ -14,5 +14,6 @@
             <key column="user_id" not-null="true"/>
             <one-to-many class="banking.users.domain.entity.UserClaim"/>
         </set>
+        <property name="person_id" column="person_id"/>
     </class> 
 </hibernate-mapping>

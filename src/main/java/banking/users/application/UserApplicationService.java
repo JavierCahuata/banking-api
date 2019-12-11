@@ -1,6 +1,7 @@
 package banking.users.application;
 
 import java.util.List;
+//import java.util.Set;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,10 @@ import banking.users.domain.repository.UserRepository;
 
 @Service
 public class UserApplicationService {
+	
+	//@Autowired
+	//private PersonRepository personRepository;
+	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -43,11 +48,40 @@ public class UserApplicationService {
         if (notification.hasErrors()) {
             throw new IllegalArgumentException(notification.errorMessage());
         }
+        //person
+        /*
+        Person person = new Person();
+        person.setFirstName(userDto.getPerson().getFirstName());
+        person.setLastName(userDto.getPerson().getLastName());
+        person.setDni(userDto.getPerson().getDni());
+        person.setAddress(userDto.getPerson().getAddress());
+        person.setPhone(userDto.getPerson().getPhone());
+        
+		person = personRepository.save(person);*/
+        //user
 		String hashPassword = Hashing.hash(userDto.getPassword());
 		userDto.setPassword(hashPassword);
+		
 		User user = mapper.map(userDto, User.class);
 		user = userRepository.save(user);
-		userDto = mapper.map(user, UserDto.class);
+		/*User user = new User();
+		user.setName(userDto.getName());
+		user.setPassword(userDto.getPassword());
+		user.setPerson_id(person.getId());
+		
+		Set<UserClaim> userClaims = user.getClaims();		
+		user = userRepository.save(user);
+		//userclaim
+		if(!userClaims.isEmpty()) {
+			UserClaim userClaim = new UserClaim();
+			System.out.println("userClaims.iterator().next().getType()" + userClaims.iterator().next().getType());
+			userClaim.setType(userClaims.iterator().next().getType());;
+			userClaim.setValue(userClaims.iterator().next().getValue());
+			userClaim.setUser(user);
+			
+			userClaim = userClaimRepository.save(userClaim);
+		}*/
+		userDto = mapper.map(user, UserDto.class);		
         return userDto;
     }
 	
@@ -62,6 +96,7 @@ public class UserApplicationService {
 		}
 		return notification;
 	}
+
 	
 	public UserAuthDto validateUser(UserDto userDto) throws Exception {
 		UserAuthDto userAuthDto = new UserAuthDto();
